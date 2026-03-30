@@ -115,6 +115,32 @@
     }
     .cv-btn:hover { background: #4a9ab3; }
 
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 4px 11px;
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .social-links a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      text-decoration: none;
+    }
+
     /* ── Nav ── */
     nav {
       border-bottom: 1px solid var(--border);
@@ -299,6 +325,20 @@
           <h1>Aylin Ozdes</h1>
           <p class="tagline">University Instructor &amp; Researcher &middot; Psychology &middot; Clarkson University</p>
           <a href="CV_AylinOzdes.pdf" download class="cv-btn">⬇ Download CV</a>
+          <div class="social-links">
+            <a href="https://scholar.google.com/citations?user=9LUP3yMAAAAJ&hl=en" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 10a8 8 0 0 1 7.162 3.44L24 9.5z"/></svg>
+              Google Scholar
+            </a>
+            <a href="https://orcid.org/0000-0002-8741-8367" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.516.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.016-5.325 5.016h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 3.872-2.466 3.872-3.722 0-2.016-1.284-3.722-3.884-3.722h-2.285z"/></svg>
+              ORCID
+            </a>
+            <a href="https://www.researchgate.net/profile/Aylin-Ozdes?ev=hdr_xprf" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.586 0c-.818 0-1.508.19-2.073.565-.563.377-.97.936-1.213 1.68a12.52 12.52 0 0 0-.368 3.14c.03.78.198 1.593.498 2.43.302.84.771 1.572 1.41 2.198.64.625 1.477.938 2.516.938a4.12 4.12 0 0 0 1.91-.435 3.403 3.403 0 0 0 1.354-1.299 3.697 3.697 0 0 0 .496-1.938c0-.73-.177-1.37-.53-1.92a3.333 3.333 0 0 0-1.453-1.234 5.272 5.272 0 0 0-2.13-.42c-.317 0-.58.02-.785.063V3.8c.168-.04.38-.06.637-.06.602 0 1.117.155 1.543.464.425.31.737.74.938 1.293.2.553.3 1.19.3 1.912 0 .7-.1 1.31-.3 1.832-.2.523-.494.928-.883 1.217-.388.29-.856.435-1.403.435-.657 0-1.202-.195-1.635-.585-.434-.39-.755-.927-.963-1.612A9.003 9.003 0 0 1 17.1 6.34c0-.888.1-1.69.298-2.408.2-.717.516-1.283.95-1.695.433-.413.995-.62 1.686-.62.39 0 .737.06 1.044.18v-1.7A5.81 5.81 0 0 0 19.586 0zM0 .15v23.7h8.993c1.586 0 2.94-.278 4.06-.834 1.12-.556 1.974-1.354 2.563-2.394.588-1.04.882-2.268.882-3.683 0-1.14-.216-2.155-.647-3.044a5.663 5.663 0 0 0-1.88-2.17c-.82-.563-1.804-.9-2.95-1.01V10.6c.95.12 1.724.477 2.32 1.073.596.596.894 1.44.894 2.53 0 1.17-.33 2.083-.992 2.74-.66.657-1.62.985-2.876.985H2.44V.15H0zm2.44 2.19h4.03c1.064 0 1.927.207 2.588.62.66.413 1.143.987 1.448 1.724.306.736.458 1.584.458 2.545 0 .92-.152 1.734-.458 2.445a3.688 3.688 0 0 1-1.376 1.655c-.606.396-1.363.594-2.27.594H2.44V2.34z"/></svg>
+              ResearchGate
+            </a>
+          </div>
         </div>
       </div>
     </div>
