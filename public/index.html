@@ -351,7 +351,7 @@
     <div class="container">
       <h2>Contact</h2>
       <p class="contact-note">Send me a message and I'll get back to you.</p>
-      <form action="mailto:aylinozzdes@gmail.com" method="POST" enctype="text/plain">
+      <form id="contact-form" action="/contact" method="POST">
         <div class="form-row">
           <label>
             Name
@@ -366,7 +366,8 @@
           Message
           <textarea name="message" placeholder="Your message..." required></textarea>
         </label>
-        <button type="submit">Send Message</button>
+        <button type="submit" id="submit-btn">Send Message</button>
+        <p id="form-status" style="font-size:0.9rem; margin-top:4px; display:none;"></p>
       </form>
     </div>
   </section>
@@ -379,6 +380,38 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    const form = document.getElementById('contact-form');
+    const status = document.getElementById('form-status');
+    const btn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      status.style.display = 'none';
+
+      const data = new URLSearchParams(new FormData(form));
+
+      try {
+        const res = await fetch('/contact', { method: 'POST', body: data });
+        const json = await res.json();
+        if (json.success) {
+          status.textContent = '✓ Message sent! I\'ll get back to you soon.';
+          status.style.color = 'var(--accent)';
+          form.reset();
+        } else {
+          throw new Error(json.error);
+        }
+      } catch (err) {
+        status.textContent = '✗ ' + (err.message || 'Something went wrong. Please try again.');
+        status.style.color = '#e07070';
+      }
+
+      status.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+    });
   </script>
 
 </body>
