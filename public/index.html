@@ -18,6 +18,9 @@
       --border: #2a3a45;
       --bg: #0f1923;
       --card-bg: #16232e;
+      --nav-bg: rgba(15, 25, 35, 0.75);
+      --hero-grad-a: rgba(90, 173, 196, 0.07);
+      --hero-grad-b: transparent;
     }
 
     :root.light {
@@ -28,9 +31,10 @@
       --border: #e2e8ec;
       --bg: #ffffff;
       --card-bg: #fafbfc;
+      --nav-bg: rgba(255, 255, 255, 0.75);
+      --hero-grad-a: rgba(74, 124, 142, 0.06);
+      --hero-grad-b: transparent;
     }
-
-    body { transition: background 0.2s, color 0.2s; }
 
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -38,6 +42,7 @@
       background: var(--bg);
       line-height: 1.7;
       font-size: 16px;
+      transition: background 0.25s, color 0.25s;
     }
 
     a {
@@ -53,11 +58,24 @@
       padding: 0 24px;
     }
 
+    /* ── Section dividers ── */
     section {
       padding: 64px 0;
-      border-bottom: 1px solid var(--border);
+      position: relative;
     }
-    section:last-of-type { border-bottom: none; }
+    section + section::before {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 2px;
+      background: var(--accent);
+      opacity: 0.5;
+      margin: 0 auto;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
     h2 {
       font-size: 1.1rem;
@@ -68,114 +86,48 @@
       margin-bottom: 32px;
     }
 
-    /* ── Hero ── */
-    #hero {
-      padding: 80px 0 64px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .hero-inner {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-    }
-
-    .avatar {
-      flex-shrink: 0;
-      width: 148px;
-      height: 148px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 3px solid var(--accent-light);
-      box-shadow: 0 2px 10px rgba(74, 124, 142, 0.15);
-    }
-
-    .avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      display: block;
-    }
-
-    .hero-text h1 {
-      font-size: 1.8rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 6px;
-    }
-
-    .hero-text .tagline {
-      color: var(--text-muted);
-      font-size: 1rem;
-      font-weight: 400;
-      margin-bottom: 16px;
-    }
-
-    .cv-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--accent);
-      color: #fff;
-      padding: 8px 20px;
-      border-radius: 6px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      transition: background 0.15s;
-      text-decoration: none !important;
-    }
-    .cv-btn:hover { background: #4a9ab3; }
-
-    .social-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .social-links a {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      padding: 4px 11px;
-      text-decoration: none;
-      transition: border-color 0.15s, color 0.15s;
-    }
-    .social-links a:hover {
-      color: var(--accent);
-      border-color: var(--accent);
-      text-decoration: none;
-    }
-
-    /* ── Nav ── */
+    /* ── Frosted glass nav ── */
     nav {
       border-bottom: 1px solid var(--border);
-      background: var(--bg);
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
       z-index: 10;
+      transition: background 0.25s;
     }
 
     nav .container {
       display: flex;
+      align-items: center;
       gap: 28px;
       padding-top: 14px;
       padding-bottom: 14px;
     }
 
+    /* ── Animated underline nav links ── */
     nav a {
       font-size: 0.875rem;
       font-weight: 500;
       color: var(--text-muted);
       transition: color 0.15s;
+      position: relative;
+      padding-bottom: 2px;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.25s ease;
     }
     nav a:hover { color: var(--accent); text-decoration: none; }
+    nav a:hover::after { width: 100%; }
 
     #theme-toggle {
       background: none;
@@ -201,10 +153,103 @@
       font-size: 0.82rem;
       transition: background 0.15s, color 0.15s;
     }
+    nav .cv-link::after { display: none; }
     nav .cv-link:hover {
       background: var(--accent);
       color: var(--bg) !important;
       text-decoration: none;
+    }
+
+    /* ── Hero with gradient ── */
+    #hero {
+      padding: 80px 0 64px;
+      background: radial-gradient(ellipse at top left, var(--hero-grad-a) 0%, var(--hero-grad-b) 70%);
+    }
+
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .avatar {
+      flex-shrink: 0;
+      width: 148px;
+      height: 148px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--accent-light);
+      box-shadow: 0 4px 24px rgba(90, 173, 196, 0.2);
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* ── Gradient name text ── */
+    .hero-text h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+      background: linear-gradient(120deg, var(--text) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-text .tagline {
+      color: var(--text-muted);
+      font-size: 1rem;
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    .cv-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: background 0.15s, transform 0.1s;
+      text-decoration: none !important;
+    }
+    .cv-btn:hover { background: #4a9ab3; transform: translateY(-1px); }
+
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 4px 11px;
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s, transform 0.15s;
+    }
+    .social-links a::after { display: none; }
+    .social-links a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      text-decoration: none;
+      transform: translateY(-1px);
     }
 
     /* ── Bio ── */
@@ -222,16 +267,32 @@
       gap: 16px;
     }
 
+    /* ── Card hover lift ── */
     .pub-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 20px 24px;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      position: relative;
     }
     .pub-card:hover {
       border-color: var(--accent);
-      box-shadow: 0 2px 12px rgba(74, 124, 142, 0.08);
+      box-shadow: 0 8px 24px rgba(90, 173, 196, 0.12);
+      transform: translateY(-2px);
+    }
+
+    /* ── Year badge ── */
+    .pub-year {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      background: var(--accent-light);
+      color: var(--accent);
+      border-radius: 4px;
+      padding: 2px 7px;
+      margin-bottom: 8px;
     }
 
     .pub-card .pub-title {
@@ -293,7 +354,7 @@
     }
     input:focus, textarea:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(74, 124, 142, 0.1);
+      box-shadow: 0 0 0 3px rgba(90, 173, 196, 0.12);
     }
 
     textarea { min-height: 130px; }
@@ -311,7 +372,7 @@
       cursor: pointer;
       transition: background 0.15s, transform 0.1s;
     }
-    button[type="submit"]:hover { background: #4a9ab3; }
+    button[type="submit"]:hover { background: #4a9ab3; transform: translateY(-1px); }
     button[type="submit"]:active { transform: scale(0.98); }
 
     /* ── Footer ── */
@@ -320,13 +381,26 @@
       text-align: center;
       font-size: 0.82rem;
       color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Fade-in on scroll ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* ── Responsive ── */
     @media (max-width: 560px) {
       .hero-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
       .form-row { grid-template-columns: 1fr; }
-      nav .container { flex-wrap: wrap; gap: 16px; }
+      nav .container { flex-wrap: wrap; gap: 14px; }
+      .hero-text h1 { font-size: 1.6rem; }
     }
   </style>
 </head>
@@ -374,7 +448,7 @@
 
   <!-- Bio -->
   <section id="bio">
-    <div class="container">
+    <div class="container fade-in">
       <h2>About</h2>
       <p>I am a university instructor and researcher at Clarkson University, specializing in psychology with a focus on human development, memory, and cognition. My work explores how people perceive, remember, and interpret their experiences, with particular interest in how perspective and context shape memory accuracy.</p>
       <p>In the classroom, I am deeply committed to making complex psychological concepts engaging, relatable, and applicable to everyday life. I teach a range of topics including personality, human development, and core principles of psychology, and I strive to create an environment where students feel encouraged to think critically and connect theory to real-world behavior.</p>
@@ -385,61 +459,70 @@
 
   <!-- Publications -->
   <section id="publications">
-    <div class="container">
+    <div class="container fade-in">
       <h2>Publications</h2>
       <div class="pub-list">
 
-        <div class="pub-card">
+        <div class="pub-card fade-in">
+          <span class="pub-year">2025</span>
           <div class="pub-title">FOMO and well-being in the context of social media: The mediating role of insomnia</div>
-          <div class="pub-meta">Bozkaya, S., Polat, O.B., Koksal, B.K., Tukur, A., Ozdes, A. &mdash; <em>Selcuk University Journal of Social Science</em>, 58 (2025)</div>
+          <div class="pub-meta">Bozkaya, S., Polat, O.B., Koksal, B.K., Tukur, A., Ozdes, A. &mdash; <em>Selcuk University Journal of Social Science</em>, 58</div>
           <a class="pub-doi" href="https://doi.org/10.52642/susbed.1622391" target="_blank" rel="noopener">doi:10.52642/susbed.1622391</a>
         </div>
 
-        <div class="pub-card">
+        <div class="pub-card fade-in">
+          <span class="pub-year">2025</span>
           <div class="pub-title">Weaving bonds: Constructing a model to unveil the role of relationship memories in satisfaction</div>
-          <div class="pub-meta">Koc-Arik, G., Ozdes, A. &mdash; <em>Applied Cognitive Psychology</em>, 38 (2025)</div>
+          <div class="pub-meta">Koc-Arik, G., Ozdes, A. &mdash; <em>Applied Cognitive Psychology</em>, 38</div>
           <a class="pub-doi" href="https://doi.org/10.1002/acp.70023" target="_blank" rel="noopener">doi:10.1002/acp.70023</a>
         </div>
 
-        <div class="pub-card">
+        <div class="pub-card fade-in">
+          <span class="pub-year">2023</span>
           <div class="pub-title">Remembering in the Digital World: Autobiographical Memory in Social Media</div>
-          <div class="pub-meta">Ozdes, A., Karaman, F. &mdash; <em>Current Approaches in Psychiatry</em>, 15 (2023)</div>
+          <div class="pub-meta">Ozdes, A., Karaman, F. &mdash; <em>Current Approaches in Psychiatry</em>, 15</div>
           <a class="pub-doi" href="https://doi.org/10.18863/pgy.1122227" target="_blank" rel="noopener">doi:10.18863/pgy.1122227</a>
         </div>
 
-        <div class="pub-card">
+        <div class="pub-card fade-in">
+          <span class="pub-year">2022</span>
           <div class="pub-title">Autobiographical Memory in Social Media and Real Life: Phenomenological Characteristics and Perceived Functions</div>
-          <div class="pub-meta">Ozdes, A. &mdash; <em>Ankara DTCF</em>, 62, 1631–1656 (2022)</div>
+          <div class="pub-meta">Ozdes, A. &mdash; <em>Ankara DTCF</em>, 62, 1631–1656</div>
           <a class="pub-doi" href="https://doi.org/10.33171/dtcfjournal.2022.62.2.34" target="_blank" rel="noopener">doi:10.33171/dtcfjournal.2022.62.2.34</a>
         </div>
 
-        <div class="pub-card">
+        <div class="pub-card fade-in">
+          <span class="pub-year">2021</span>
           <div class="pub-title">Self-referential processing in false recognition and source monitoring: Self, close other and unknown other differences</div>
-          <div class="pub-meta">Ozdes, A., Bagci, E., Burhan-Cavusoglu, P., Ulusoy-Kok, N. &mdash; <em>Journal of Cognitive Psychology</em>, 33, 823–836 (2021)</div>
+          <div class="pub-meta">Ozdes, A., Bagci, E., Burhan-Cavusoglu, P., Ulusoy-Kok, N. &mdash; <em>Journal of Cognitive Psychology</em>, 33, 823–836</div>
           <a class="pub-doi" href="https://doi.org/10.1080/20445911.2021.1977816" target="_blank" rel="noopener">doi:10.1080/20445911.2021.1977816</a>
         </div>
 
-        <div class="pub-card">
+        <div class="pub-card fade-in">
+          <span class="pub-year">2021</span>
           <div class="pub-title">How did I do it then? How will I do it later? A theoretical review of the impact of mental time travel on decision-making processes</div>
-          <div class="pub-meta">Ozdes, A. &mdash; <em>New Ideas in Psychology</em>, 62, 1–7 (2021)</div>
+          <div class="pub-meta">Ozdes, A. &mdash; <em>New Ideas in Psychology</em>, 62, 1–7</div>
           <a class="pub-doi" href="https://doi.org/10.1016/j.newideapsych.2021.100869" target="_blank" rel="noopener">doi:10.1016/j.newideapsych.2021.100869</a>
         </div>
 
-        <div class="pub-card">
+        <div class="pub-card fade-in">
+          <span class="pub-year">2020</span>
           <div class="pub-title">Aging and decision-making processes: The role of emotion regulation</div>
-          <div class="pub-meta">Ozdes, A. &mdash; <em>Current Approaches in Psychiatry</em>, 12, 382–395 (2020)</div>
+          <div class="pub-meta">Ozdes, A. &mdash; <em>Current Approaches in Psychiatry</em>, 12, 382–395</div>
           <a class="pub-doi" href="https://doi.org/10.18863/pgy.640158" target="_blank" rel="noopener">doi:10.18863/pgy.640158</a>
         </div>
 
-        <div class="pub-card">
+        <div class="pub-card fade-in">
+          <span class="pub-year">2016</span>
           <div class="pub-title">Future perspective and healthy lifestyle choices in adulthood</div>
-          <div class="pub-meta">Tasdemir-Ozdes, A., Strickland-Hughes, C.M., Bluck, S., Ebner, N.C. &mdash; <em>Psychology and Aging</em>, 31, 618–630 (2016)</div>
+          <div class="pub-meta">Tasdemir-Ozdes, A., Strickland-Hughes, C.M., Bluck, S., Ebner, N.C. &mdash; <em>Psychology and Aging</em>, 31, 618–630</div>
           <a class="pub-doi" href="https://doi.org/10.1037/pag0000089" target="_blank" rel="noopener">doi:10.1037/pag0000089</a>
         </div>
 
-        <div class="pub-card">
+        <div class="pub-card fade-in">
+          <span class="pub-year">2014</span>
           <div class="pub-title">Adults' reports of their earliest memories: Consistency in events, ages, and narrative characteristics over time</div>
-          <div class="pub-meta">Bauer, P.J., Tasdemir-Ozdes, A., Larkina, M. &mdash; <em>Consciousness and Cognition</em>, 27, 76–88 (2014)</div>
+          <div class="pub-meta">Bauer, P.J., Tasdemir-Ozdes, A., Larkina, M. &mdash; <em>Consciousness and Cognition</em>, 27, 76–88</div>
           <a class="pub-doi" href="https://doi.org/10.1016/j.concog.2014.04.008" target="_blank" rel="noopener">doi:10.1016/j.concog.2014.04.008</a>
         </div>
 
@@ -449,7 +532,7 @@
 
   <!-- Contact -->
   <section id="contact">
-    <div class="container">
+    <div class="container fade-in">
       <h2>Contact</h2>
       <p class="contact-note">Send me a message and I'll get back to you.</p>
       <form id="contact-form" action="/contact" method="POST">
@@ -482,10 +565,9 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Theme toggle
+    // ── Theme toggle ──
     const root = document.documentElement;
     const toggleBtn = document.getElementById('theme-toggle');
-    const saved = localStorage.getItem('theme');
 
     function applyTheme(theme) {
       if (theme === 'light') {
@@ -499,15 +581,27 @@
       }
     }
 
-    applyTheme(saved || 'dark');
+    applyTheme(localStorage.getItem('theme') || 'dark');
 
     toggleBtn.addEventListener('click', () => {
-      const isLight = root.classList.contains('light');
-      const next = isLight ? 'dark' : 'light';
+      const next = root.classList.contains('light') ? 'dark' : 'light';
       localStorage.setItem('theme', next);
       applyTheme(next);
     });
 
+    // ── Fade-in on scroll ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // ── Contact form ──
     const form = document.getElementById('contact-form');
     const status = document.getElementById('form-status');
     const btn = document.getElementById('submit-btn');
