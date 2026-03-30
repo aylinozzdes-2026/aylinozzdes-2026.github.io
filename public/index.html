@@ -97,7 +97,23 @@
       color: var(--text-muted);
       font-size: 1rem;
       font-weight: 400;
+      margin-bottom: 16px;
     }
+
+    .cv-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: background 0.15s;
+      text-decoration: none !important;
+    }
+    .cv-btn:hover { background: #4a9ab3; }
 
     /* ── Nav ── */
     nav {
@@ -122,6 +138,21 @@
       transition: color 0.15s;
     }
     nav a:hover { color: var(--accent); text-decoration: none; }
+
+    nav .cv-link {
+      margin-left: auto;
+      color: var(--accent) !important;
+      border: 1px solid var(--accent);
+      border-radius: 5px;
+      padding: 3px 12px;
+      font-size: 0.82rem;
+      transition: background 0.15s, color 0.15s;
+    }
+    nav .cv-link:hover {
+      background: var(--accent);
+      color: var(--bg) !important;
+      text-decoration: none;
+    }
 
     /* ── Bio ── */
     #bio p {
@@ -253,6 +284,7 @@
       <a href="#bio">About</a>
       <a href="#publications">Publications</a>
       <a href="#contact">Contact</a>
+      <a href="CV_AylinOzdes.pdf" download class="cv-link">⬇ Download CV</a>
     </div>
   </nav>
 
@@ -266,6 +298,7 @@
         <div class="hero-text">
           <h1>Aylin Ozdes</h1>
           <p class="tagline">University Instructor &amp; Researcher &middot; Psychology &middot; Clarkson University</p>
+          <a href="CV_AylinOzdes.pdf" download class="cv-btn">⬇ Download CV</a>
         </div>
       </div>
     </div>
