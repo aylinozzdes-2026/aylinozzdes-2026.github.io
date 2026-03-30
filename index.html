@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aylin Ozdes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #5aadc4;
+      --accent-light: #1a3340;
+      --text: #e8eaed;
+      --text-muted: #8a9bb0;
+      --border: #2a3a45;
+      --bg: #0f1923;
+      --card-bg: #16232e;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    section:last-of-type { border-bottom: none; }
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 32px;
+    }
+
+    /* ── Hero ── */
+    #hero {
+      padding: 80px 0 64px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .avatar {
+      flex-shrink: 0;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--accent-light);
+      box-shadow: 0 2px 10px rgba(74, 124, 142, 0.15);
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .hero-text h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .hero-text .tagline {
+      color: var(--text-muted);
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
+    /* ── Nav ── */
+    nav {
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav .container {
+      display: flex;
+      gap: 28px;
+      padding-top: 14px;
+      padding-bottom: 14px;
+    }
+
+    nav a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color 0.15s;
+    }
+    nav a:hover { color: var(--accent); text-decoration: none; }
+
+    /* ── Bio ── */
+    #bio p {
+      color: var(--text);
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+    #bio p:last-child { margin-bottom: 0; }
+
+    /* ── Publications ── */
+    .pub-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .pub-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 24px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .pub-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 2px 12px rgba(74, 124, 142, 0.08);
+    }
+
+    .pub-card .pub-title {
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+
+    .pub-card .pub-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .pub-card .pub-doi {
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+
+    /* ── Contact ── */
+    .contact-note {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    input, textarea {
+      font-family: inherit;
+      font-size: 0.95rem;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--card-bg);
+      color: var(--text);
+      transition: border-color 0.15s;
+      outline: none;
+      resize: vertical;
+    }
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(74, 124, 142, 0.1);
+    }
+
+    textarea { min-height: 130px; }
+
+    button[type="submit"] {
+      align-self: flex-start;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 11px 28px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    button[type="submit"]:hover { background: #4a9ab3; }
+    button[type="submit"]:active { transform: scale(0.98); }
+
+    /* ── Footer ── */
+    footer {
+      padding: 32px 0;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 560px) {
+      .hero-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      nav .container { flex-wrap: wrap; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <a href="#bio">About</a>
+      <a href="#publications">Publications</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="avatar">
+          <img src="profile2.jpg" alt="Aylin Ozdes" />
+        </div>
+        <div class="hero-text">
+          <h1>Aylin Ozdes</h1>
+          <p class="tagline">University Instructor &amp; Researcher &middot; Psychology &middot; Clarkson University</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bio -->
+  <section id="bio">
+    <div class="container">
+      <h2>About</h2>
+      <p>I am a university instructor and researcher at Clarkson University, specializing in psychology with a focus on human development, memory, and cognition. My work explores how people perceive, remember, and interpret their experiences, with particular interest in how perspective and context shape memory accuracy.</p>
+      <p>In the classroom, I am deeply committed to making complex psychological concepts engaging, relatable, and applicable to everyday life. I teach a range of topics including personality, human development, and core principles of psychology, and I strive to create an environment where students feel encouraged to think critically and connect theory to real-world behavior.</p>
+      <p>My research examines the mechanisms underlying memory distortion, including how visual perspective during encoding can influence later recall. Through this work, I aim to contribute to a better understanding of how memory functions in both everyday settings and applied contexts.</p>
+      <p>Originally from Turkey and now living in the United States with my family, I bring a multicultural perspective to both my teaching and research. Outside of academia, I enjoy cooking a variety of cuisines, exploring new ideas, and balancing professional life with family life.</p>
+    </div>
+  </section>
+
+  <!-- Publications -->
+  <section id="publications">
+    <div class="container">
+      <h2>Publications</h2>
+      <div class="pub-list">
+
+        <div class="pub-card">
+          <div class="pub-title">FOMO and well-being in the context of social media: The mediating role of insomnia</div>
+          <div class="pub-meta">Bozkaya, S., Polat, O.B., Koksal, B.K., Tukur, A., Ozdes, A. &mdash; <em>Selcuk University Journal of Social Science</em>, 58 (2025)</div>
+          <a class="pub-doi" href="https://doi.org/10.52642/susbed.1622391" target="_blank" rel="noopener">doi:10.52642/susbed.1622391</a>
+        </div>
+
+        <div class="pub-card">
+          <div class="pub-title">Weaving bonds: Constructing a model to unveil the role of relationship memories in satisfaction</div>
+          <div class="pub-meta">Koc-Arik, G., Ozdes, A. &mdash; <em>Applied Cognitive Psychology</em>, 38 (2025)</div>
+          <a class="pub-doi" href="https://doi.org/10.1002/acp.70023" target="_blank" rel="noopener">doi:10.1002/acp.70023</a>
+        </div>
+
+        <div class="pub-card">
+          <div class="pub-title">Remembering in the Digital World: Autobiographical Memory in Social Media</div>
+          <div class="pub-meta">Ozdes, A., Karaman, F. &mdash; <em>Current Approaches in Psychiatry</em>, 15 (2023)</div>
+          <a class="pub-doi" href="https://doi.org/10.18863/pgy.1122227" target="_blank" rel="noopener">doi:10.18863/pgy.1122227</a>
+        </div>
+
+        <div class="pub-card">
+          <div class="pub-title">Autobiographical Memory in Social Media and Real Life: Phenomenological Characteristics and Perceived Functions</div>
+          <div class="pub-meta">Ozdes, A. &mdash; <em>Ankara DTCF</em>, 62, 1631–1656 (2022)</div>
+          <a class="pub-doi" href="https://doi.org/10.33171/dtcfjournal.2022.62.2.34" target="_blank" rel="noopener">doi:10.33171/dtcfjournal.2022.62.2.34</a>
+        </div>
+
+        <div class="pub-card">
+          <div class="pub-title">Self-referential processing in false recognition and source monitoring: Self, close other and unknown other differences</div>
+          <div class="pub-meta">Ozdes, A., Bagci, E., Burhan-Cavusoglu, P., Ulusoy-Kok, N. &mdash; <em>Journal of Cognitive Psychology</em>, 33, 823–836 (2021)</div>
+          <a class="pub-doi" href="https://doi.org/10.1080/20445911.2021.1977816" target="_blank" rel="noopener">doi:10.1080/20445911.2021.1977816</a>
+        </div>
+
+        <div class="pub-card">
+          <div class="pub-title">How did I do it then? How will I do it later? A theoretical review of the impact of mental time travel on decision-making processes</div>
+          <div class="pub-meta">Ozdes, A. &mdash; <em>New Ideas in Psychology</em>, 62, 1–7 (2021)</div>
+          <a class="pub-doi" href="https://doi.org/10.1016/j.newideapsych.2021.100869" target="_blank" rel="noopener">doi:10.1016/j.newideapsych.2021.100869</a>
+        </div>
+
+        <div class="pub-card">
+          <div class="pub-title">Aging and decision-making processes: The role of emotion regulation</div>
+          <div class="pub-meta">Ozdes, A. &mdash; <em>Current Approaches in Psychiatry</em>, 12, 382–395 (2020)</div>
+          <a class="pub-doi" href="https://doi.org/10.18863/pgy.640158" target="_blank" rel="noopener">doi:10.18863/pgy.640158</a>
+        </div>
+
+        <div class="pub-card">
+          <div class="pub-title">Future perspective and healthy lifestyle choices in adulthood</div>
+          <div class="pub-meta">Tasdemir-Ozdes, A., Strickland-Hughes, C.M., Bluck, S., Ebner, N.C. &mdash; <em>Psychology and Aging</em>, 31, 618–630 (2016)</div>
+          <a class="pub-doi" href="https://doi.org/10.1037/pag0000089" target="_blank" rel="noopener">doi:10.1037/pag0000089</a>
+        </div>
+
+        <div class="pub-card">
+          <div class="pub-title">Adults' reports of their earliest memories: Consistency in events, ages, and narrative characteristics over time</div>
+          <div class="pub-meta">Bauer, P.J., Tasdemir-Ozdes, A., Larkina, M. &mdash; <em>Consciousness and Cognition</em>, 27, 76–88 (2014)</div>
+          <a class="pub-doi" href="https://doi.org/10.1016/j.concog.2014.04.008" target="_blank" rel="noopener">doi:10.1016/j.concog.2014.04.008</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <h2>Contact</h2>
+      <p class="contact-note">Send me a message and I'll get back to you.</p>
+      <form action="mailto:aylinozzdes@gmail.com" method="POST" enctype="text/plain">
+        <div class="form-row">
+          <label>
+            Name
+            <input type="text" name="name" placeholder="Your name" required />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" placeholder="your@email.com" required />
+          </label>
+        </div>
+        <label>
+          Message
+          <textarea name="message" placeholder="Your message..." required></textarea>
+        </label>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      &copy; <span id="year"></span> Aylin Ozdes
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
