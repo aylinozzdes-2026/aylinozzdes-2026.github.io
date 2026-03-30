@@ -20,6 +20,18 @@
       --card-bg: #16232e;
     }
 
+    :root.light {
+      --accent: #4a7c8e;
+      --accent-light: #e8f2f5;
+      --text: #1a1a1a;
+      --text-muted: #555;
+      --border: #e2e8ec;
+      --bg: #ffffff;
+      --card-bg: #fafbfc;
+    }
+
+    body { transition: background 0.2s, color 0.2s; }
+
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       color: var(--text);
@@ -164,6 +176,21 @@
       transition: color 0.15s;
     }
     nav a:hover { color: var(--accent); text-decoration: none; }
+
+    #theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 3px 9px;
+      line-height: 1;
+      transition: border-color 0.15s, color 0.15s;
+      display: flex;
+      align-items: center;
+    }
+    #theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
     nav .cv-link {
       margin-left: auto;
@@ -310,6 +337,7 @@
       <a href="#bio">About</a>
       <a href="#publications">Publications</a>
       <a href="#contact">Contact</a>
+      <button id="theme-toggle" aria-label="Toggle light/dark mode">🌙</button>
       <a href="CV_AylinOzdes.pdf" download class="cv-link">⬇ Download CV</a>
     </div>
   </nav>
@@ -453,6 +481,32 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Theme toggle
+    const root = document.documentElement;
+    const toggleBtn = document.getElementById('theme-toggle');
+    const saved = localStorage.getItem('theme');
+
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        root.classList.add('light');
+        toggleBtn.textContent = '🌙';
+        toggleBtn.setAttribute('aria-label', 'Switch to dark mode');
+      } else {
+        root.classList.remove('light');
+        toggleBtn.textContent = '☀️';
+        toggleBtn.setAttribute('aria-label', 'Switch to light mode');
+      }
+    }
+
+    applyTheme(saved || 'dark');
+
+    toggleBtn.addEventListener('click', () => {
+      const isLight = root.classList.contains('light');
+      const next = isLight ? 'dark' : 'light';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
 
     const form = document.getElementById('contact-form');
     const status = document.getElementById('form-status');
