@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aylin Ozdes</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%235aadc4'/><text y='72' x='50' text-anchor='middle' font-size='52' font-family='Inter,system-ui,sans-serif' font-weight='700' fill='white'>AO</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -21,6 +22,8 @@
       --nav-bg: rgba(15, 25, 35, 0.75);
       --hero-grad-a: rgba(90, 173, 196, 0.07);
       --hero-grad-b: transparent;
+      --glass-bg: rgba(22, 35, 46, 0.55);
+      --glass-border: rgba(90, 173, 196, 0.18);
     }
 
     :root.light {
@@ -34,6 +37,8 @@
       --nav-bg: rgba(255, 255, 255, 0.75);
       --hero-grad-a: rgba(74, 124, 142, 0.06);
       --hero-grad-b: transparent;
+      --glass-bg: rgba(255, 255, 255, 0.55);
+      --glass-border: rgba(74, 124, 142, 0.2);
     }
 
     body {
@@ -45,13 +50,9 @@
       transition: background 0.25s, color 0.25s;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
+    a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* ── Layout ── */
     .container {
       max-width: 720px;
       margin: 0 auto;
@@ -59,10 +60,7 @@
     }
 
     /* ── Section dividers ── */
-    section {
-      padding: 64px 0;
-      position: relative;
-    }
+    section { padding: 64px 0; position: relative; }
     section + section::before {
       content: '';
       display: block;
@@ -70,7 +68,6 @@
       height: 2px;
       background: var(--accent);
       opacity: 0.5;
-      margin: 0 auto;
       position: absolute;
       top: 0;
       left: 50%;
@@ -94,7 +91,7 @@
       -webkit-backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 100;
       transition: background 0.25s;
     }
 
@@ -106,8 +103,8 @@
       padding-bottom: 14px;
     }
 
-    /* ── Animated underline nav links ── */
-    nav a {
+    /* ── Animated underline + active nav ── */
+    nav a.nav-link {
       font-size: 0.875rem;
       font-weight: 500;
       color: var(--text-muted);
@@ -115,7 +112,7 @@
       position: relative;
       padding-bottom: 2px;
     }
-    nav a::after {
+    nav a.nav-link::after {
       content: '';
       position: absolute;
       bottom: -2px;
@@ -126,8 +123,10 @@
       border-radius: 2px;
       transition: width 0.25s ease;
     }
-    nav a:hover { color: var(--accent); text-decoration: none; }
-    nav a:hover::after { width: 100%; }
+    nav a.nav-link:hover,
+    nav a.nav-link.active { color: var(--accent); text-decoration: none; }
+    nav a.nav-link:hover::after,
+    nav a.nav-link.active::after { width: 100%; }
 
     #theme-toggle {
       background: none;
@@ -153,33 +152,65 @@
       font-size: 0.82rem;
       transition: background 0.15s, color 0.15s;
     }
-    nav .cv-link::after { display: none; }
     nav .cv-link:hover {
       background: var(--accent);
       color: var(--bg) !important;
       text-decoration: none;
     }
 
-    /* ── Hero with gradient ── */
+    /* ── Hero ── */
     #hero {
       padding: 80px 0 64px;
       background: radial-gradient(ellipse at top left, var(--hero-grad-a) 0%, var(--hero-grad-b) 70%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── Mouse-follow glow ── */
+    #hero-glow {
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(90,173,196,0.10) 0%, transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: left 0.12s ease, top 0.12s ease;
+      z-index: 0;
     }
 
     .hero-inner {
       display: flex;
       align-items: center;
       gap: 36px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Animated gradient avatar ring ── */
+    .avatar-wrap {
+      flex-shrink: 0;
+      width: 158px;
+      height: 158px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #5aadc4, #2a6b8a, #5aadc4, #83d0e8);
+      background-size: 300% 300%;
+      animation: spin-gradient 4s linear infinite;
+      box-shadow: 0 4px 28px rgba(90, 173, 196, 0.25);
+    }
+    @keyframes spin-gradient {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .avatar {
-      flex-shrink: 0;
-      width: 148px;
-      height: 148px;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
       overflow: hidden;
-      border: 3px solid var(--accent-light);
-      box-shadow: 0 4px 24px rgba(90, 173, 196, 0.2);
+      background: var(--bg);
     }
 
     .avatar img {
@@ -190,7 +221,7 @@
       display: block;
     }
 
-    /* ── Gradient name text ── */
+    /* ── Gradient name ── */
     .hero-text h1 {
       font-size: 2rem;
       font-weight: 600;
@@ -202,12 +233,24 @@
       background-clip: text;
     }
 
+    /* ── Typing animation tagline ── */
     .hero-text .tagline {
       color: var(--text-muted);
       font-size: 1rem;
       font-weight: 400;
       margin-bottom: 16px;
+      min-height: 1.7em;
     }
+    .tagline-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--accent);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 0.75s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
     .cv-btn {
       display: inline-flex;
@@ -219,7 +262,7 @@
       border-radius: 6px;
       font-size: 0.875rem;
       font-weight: 500;
-      transition: background 0.15s, transform 0.1s;
+      transition: background 0.15s, transform 0.15s;
       text-decoration: none !important;
     }
     .cv-btn:hover { background: #4a9ab3; transform: translateY(-1px); }
@@ -230,7 +273,6 @@
       gap: 10px;
       margin-top: 14px;
     }
-
     .social-links a {
       display: inline-flex;
       align-items: center;
@@ -244,7 +286,6 @@
       text-decoration: none;
       transition: border-color 0.15s, color 0.15s, transform 0.15s;
     }
-    .social-links a::after { display: none; }
     .social-links a:hover {
       color: var(--accent);
       border-color: var(--accent);
@@ -252,37 +293,81 @@
       transform: translateY(-1px);
     }
 
-    /* ── Bio ── */
-    #bio p {
-      color: var(--text);
-      font-size: 1rem;
-      margin-bottom: 16px;
+    /* ── Stats counters ── */
+    .stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
     }
+    .stat { text-align: center; }
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ── Bio ── */
+    #bio p { color: var(--text); font-size: 1rem; margin-bottom: 16px; }
     #bio p:last-child { margin-bottom: 0; }
 
-    /* ── Publications ── */
-    .pub-list {
+    /* ── Research interest filter tags ── */
+    .interest-tags {
       display: flex;
-      flex-direction: column;
-      gap: 16px;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .tag {
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 5px 13px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+    .tag.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
     }
 
-    /* ── Card hover lift ── */
+    /* ── Publications ── */
+    .pub-list { display: flex; flex-direction: column; gap: 16px; }
+
+    /* ── Glassmorphism cards ── */
     .pub-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
       padding: 20px 24px;
-      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.3s;
       position: relative;
     }
     .pub-card:hover {
       border-color: var(--accent);
-      box-shadow: 0 8px 24px rgba(90, 173, 196, 0.12);
+      box-shadow: 0 8px 32px rgba(90, 173, 196, 0.15);
       transform: translateY(-2px);
     }
+    .pub-card.hidden { display: none; }
 
-    /* ── Year badge ── */
     .pub-year {
       display: inline-block;
       font-size: 0.72rem;
@@ -294,42 +379,14 @@
       padding: 2px 7px;
       margin-bottom: 8px;
     }
-
-    .pub-card .pub-title {
-      font-weight: 500;
-      font-size: 0.95rem;
-      margin-bottom: 6px;
-    }
-
-    .pub-card .pub-meta {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 10px;
-    }
-
-    .pub-card .pub-doi {
-      font-size: 0.82rem;
-      font-weight: 500;
-    }
+    .pub-card .pub-title { font-weight: 500; font-size: 0.95rem; margin-bottom: 6px; }
+    .pub-card .pub-meta { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; }
+    .pub-card .pub-doi { font-size: 0.82rem; font-weight: 500; }
 
     /* ── Contact ── */
-    .contact-note {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 28px;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
+    .contact-note { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 28px; }
+    form { display: flex; flex-direction: column; gap: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
     label {
       display: flex;
@@ -346,7 +403,8 @@
       padding: 10px 14px;
       border: 1px solid var(--border);
       border-radius: 6px;
-      background: var(--card-bg);
+      background: var(--glass-bg);
+      backdrop-filter: blur(8px);
       color: var(--text);
       transition: border-color 0.15s;
       outline: none;
@@ -356,7 +414,6 @@
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(90, 173, 196, 0.12);
     }
-
     textarea { min-height: 130px; }
 
     button[type="submit"] {
@@ -390,10 +447,37 @@
       transform: translateY(22px);
       transition: opacity 0.55s ease, transform 0.55s ease;
     }
-    .fade-in.visible {
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Back to top button ── */
+    #back-to-top {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(90,173,196,0.35);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.25s, transform 0.25s, background 0.15s;
+      z-index: 200;
+      pointer-events: none;
+    }
+    #back-to-top.visible {
       opacity: 1;
       transform: translateY(0);
+      pointer-events: all;
     }
+    #back-to-top:hover { background: #4a9ab3; }
 
     /* ── Responsive ── */
     @media (max-width: 560px) {
@@ -401,6 +485,8 @@
       .form-row { grid-template-columns: 1fr; }
       nav .container { flex-wrap: wrap; gap: 14px; }
       .hero-text h1 { font-size: 1.6rem; }
+      .stats { gap: 20px; }
+      #back-to-top { bottom: 20px; right: 20px; }
     }
   </style>
 </head>
@@ -408,9 +494,9 @@
 
   <nav>
     <div class="container">
-      <a href="#bio">About</a>
-      <a href="#publications">Publications</a>
-      <a href="#contact">Contact</a>
+      <a href="#bio" class="nav-link" data-section="bio">About</a>
+      <a href="#publications" class="nav-link" data-section="publications">Publications</a>
+      <a href="#contact" class="nav-link" data-section="contact">Contact</a>
       <button id="theme-toggle" aria-label="Toggle light/dark mode">🌙</button>
       <a href="CV_AylinOzdes.pdf" download class="cv-link">⬇ Download CV</a>
     </div>
@@ -418,14 +504,17 @@
 
   <!-- Hero -->
   <section id="hero">
+    <div id="hero-glow"></div>
     <div class="container">
       <div class="hero-inner">
-        <div class="avatar">
-          <img src="profile2.jpg" alt="Aylin Ozdes" />
+        <div class="avatar-wrap">
+          <div class="avatar">
+            <img src="profile2.jpg" alt="Aylin Ozdes" />
+          </div>
         </div>
         <div class="hero-text">
           <h1>Aylin Ozdes</h1>
-          <p class="tagline">University Instructor &amp; Researcher &middot; Psychology &middot; Clarkson University</p>
+          <p class="tagline"><span id="typed-text"></span><span class="tagline-cursor"></span></p>
           <a href="CV_AylinOzdes.pdf" download class="cv-btn">⬇ Download CV</a>
           <div class="social-links">
             <a href="https://scholar.google.com/citations?user=9LUP3yMAAAAJ&hl=en" target="_blank" rel="noopener">
@@ -440,6 +529,26 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.586 0c-.818 0-1.508.19-2.073.565-.563.377-.97.936-1.213 1.68a12.52 12.52 0 0 0-.368 3.14c.03.78.198 1.593.498 2.43.302.84.771 1.572 1.41 2.198.64.625 1.477.938 2.516.938a4.12 4.12 0 0 0 1.91-.435 3.403 3.403 0 0 0 1.354-1.299 3.697 3.697 0 0 0 .496-1.938c0-.73-.177-1.37-.53-1.92a3.333 3.333 0 0 0-1.453-1.234 5.272 5.272 0 0 0-2.13-.42c-.317 0-.58.02-.785.063V3.8c.168-.04.38-.06.637-.06.602 0 1.117.155 1.543.464.425.31.737.74.938 1.293.2.553.3 1.19.3 1.912 0 .7-.1 1.31-.3 1.832-.2.523-.494.928-.883 1.217-.388.29-.856.435-1.403.435-.657 0-1.202-.195-1.635-.585-.434-.39-.755-.927-.963-1.612A9.003 9.003 0 0 1 17.1 6.34c0-.888.1-1.69.298-2.408.2-.717.516-1.283.95-1.695.433-.413.995-.62 1.686-.62.39 0 .737.06 1.044.18v-1.7A5.81 5.81 0 0 0 19.586 0zM0 .15v23.7h8.993c1.586 0 2.94-.278 4.06-.834 1.12-.556 1.974-1.354 2.563-2.394.588-1.04.882-2.268.882-3.683 0-1.14-.216-2.155-.647-3.044a5.663 5.663 0 0 0-1.88-2.17c-.82-.563-1.804-.9-2.95-1.01V10.6c.95.12 1.724.477 2.32 1.073.596.596.894 1.44.894 2.53 0 1.17-.33 2.083-.992 2.74-.66.657-1.62.985-2.876.985H2.44V.15H0zm2.44 2.19h4.03c1.064 0 1.927.207 2.588.62.66.413 1.143.987 1.448 1.724.306.736.458 1.584.458 2.545 0 .92-.152 1.734-.458 2.445a3.688 3.688 0 0 1-1.376 1.655c-.606.396-1.363.594-2.27.594H2.44V2.34z"/></svg>
               ResearchGate
             </a>
+          </div>
+
+          <!-- Stats counters -->
+          <div class="stats">
+            <div class="stat">
+              <span class="stat-number" data-target="9">0</span>
+              <span class="stat-label">Publications</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number" data-target="2">0</span>
+              <span class="stat-label">Languages</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number" data-target="10">0</span>
+              <span class="stat-label">Years Active</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number" data-target="5">0</span>
+              <span class="stat-label">Research Areas</span>
+            </div>
           </div>
         </div>
       </div>
@@ -461,65 +570,76 @@
   <section id="publications">
     <div class="container fade-in">
       <h2>Publications</h2>
+
+      <!-- Filter tags -->
+      <div class="interest-tags">
+        <span class="tag active" data-filter="all">All</span>
+        <span class="tag" data-filter="memory">Memory</span>
+        <span class="tag" data-filter="social-media">Social Media</span>
+        <span class="tag" data-filter="decision-making">Decision-Making</span>
+        <span class="tag" data-filter="aging">Aging</span>
+        <span class="tag" data-filter="wellbeing">Well-being</span>
+      </div>
+
       <div class="pub-list">
 
-        <div class="pub-card fade-in">
+        <div class="pub-card fade-in" data-tags="social-media wellbeing">
           <span class="pub-year">2025</span>
           <div class="pub-title">FOMO and well-being in the context of social media: The mediating role of insomnia</div>
           <div class="pub-meta">Bozkaya, S., Polat, O.B., Koksal, B.K., Tukur, A., Ozdes, A. &mdash; <em>Selcuk University Journal of Social Science</em>, 58</div>
           <a class="pub-doi" href="https://doi.org/10.52642/susbed.1622391" target="_blank" rel="noopener">doi:10.52642/susbed.1622391</a>
         </div>
 
-        <div class="pub-card fade-in">
+        <div class="pub-card fade-in" data-tags="memory">
           <span class="pub-year">2025</span>
           <div class="pub-title">Weaving bonds: Constructing a model to unveil the role of relationship memories in satisfaction</div>
           <div class="pub-meta">Koc-Arik, G., Ozdes, A. &mdash; <em>Applied Cognitive Psychology</em>, 38</div>
           <a class="pub-doi" href="https://doi.org/10.1002/acp.70023" target="_blank" rel="noopener">doi:10.1002/acp.70023</a>
         </div>
 
-        <div class="pub-card fade-in">
+        <div class="pub-card fade-in" data-tags="memory social-media">
           <span class="pub-year">2023</span>
           <div class="pub-title">Remembering in the Digital World: Autobiographical Memory in Social Media</div>
           <div class="pub-meta">Ozdes, A., Karaman, F. &mdash; <em>Current Approaches in Psychiatry</em>, 15</div>
           <a class="pub-doi" href="https://doi.org/10.18863/pgy.1122227" target="_blank" rel="noopener">doi:10.18863/pgy.1122227</a>
         </div>
 
-        <div class="pub-card fade-in">
+        <div class="pub-card fade-in" data-tags="memory social-media">
           <span class="pub-year">2022</span>
           <div class="pub-title">Autobiographical Memory in Social Media and Real Life: Phenomenological Characteristics and Perceived Functions</div>
           <div class="pub-meta">Ozdes, A. &mdash; <em>Ankara DTCF</em>, 62, 1631–1656</div>
           <a class="pub-doi" href="https://doi.org/10.33171/dtcfjournal.2022.62.2.34" target="_blank" rel="noopener">doi:10.33171/dtcfjournal.2022.62.2.34</a>
         </div>
 
-        <div class="pub-card fade-in">
+        <div class="pub-card fade-in" data-tags="memory">
           <span class="pub-year">2021</span>
           <div class="pub-title">Self-referential processing in false recognition and source monitoring: Self, close other and unknown other differences</div>
           <div class="pub-meta">Ozdes, A., Bagci, E., Burhan-Cavusoglu, P., Ulusoy-Kok, N. &mdash; <em>Journal of Cognitive Psychology</em>, 33, 823–836</div>
           <a class="pub-doi" href="https://doi.org/10.1080/20445911.2021.1977816" target="_blank" rel="noopener">doi:10.1080/20445911.2021.1977816</a>
         </div>
 
-        <div class="pub-card fade-in">
+        <div class="pub-card fade-in" data-tags="decision-making memory">
           <span class="pub-year">2021</span>
           <div class="pub-title">How did I do it then? How will I do it later? A theoretical review of the impact of mental time travel on decision-making processes</div>
           <div class="pub-meta">Ozdes, A. &mdash; <em>New Ideas in Psychology</em>, 62, 1–7</div>
           <a class="pub-doi" href="https://doi.org/10.1016/j.newideapsych.2021.100869" target="_blank" rel="noopener">doi:10.1016/j.newideapsych.2021.100869</a>
         </div>
 
-        <div class="pub-card fade-in">
+        <div class="pub-card fade-in" data-tags="aging decision-making">
           <span class="pub-year">2020</span>
           <div class="pub-title">Aging and decision-making processes: The role of emotion regulation</div>
           <div class="pub-meta">Ozdes, A. &mdash; <em>Current Approaches in Psychiatry</em>, 12, 382–395</div>
           <a class="pub-doi" href="https://doi.org/10.18863/pgy.640158" target="_blank" rel="noopener">doi:10.18863/pgy.640158</a>
         </div>
 
-        <div class="pub-card fade-in">
+        <div class="pub-card fade-in" data-tags="aging wellbeing">
           <span class="pub-year">2016</span>
           <div class="pub-title">Future perspective and healthy lifestyle choices in adulthood</div>
           <div class="pub-meta">Tasdemir-Ozdes, A., Strickland-Hughes, C.M., Bluck, S., Ebner, N.C. &mdash; <em>Psychology and Aging</em>, 31, 618–630</div>
           <a class="pub-doi" href="https://doi.org/10.1037/pag0000089" target="_blank" rel="noopener">doi:10.1037/pag0000089</a>
         </div>
 
-        <div class="pub-card fade-in">
+        <div class="pub-card fade-in" data-tags="memory">
           <span class="pub-year">2014</span>
           <div class="pub-title">Adults' reports of their earliest memories: Consistency in events, ages, and narrative characteristics over time</div>
           <div class="pub-meta">Bauer, P.J., Tasdemir-Ozdes, A., Larkina, M. &mdash; <em>Consciousness and Cognition</em>, 27, 76–88</div>
@@ -537,19 +657,10 @@
       <p class="contact-note">Send me a message and I'll get back to you.</p>
       <form id="contact-form" action="/contact" method="POST">
         <div class="form-row">
-          <label>
-            Name
-            <input type="text" name="name" placeholder="Your name" required />
-          </label>
-          <label>
-            Email
-            <input type="email" name="email" placeholder="your@email.com" required />
-          </label>
+          <label>Name<input type="text" name="name" placeholder="Your name" required /></label>
+          <label>Email<input type="email" name="email" placeholder="your@email.com" required /></label>
         </div>
-        <label>
-          Message
-          <textarea name="message" placeholder="Your message..." required></textarea>
-        </label>
+        <label>Message<textarea name="message" placeholder="Your message..." required></textarea></label>
         <button type="submit" id="submit-btn">Send Message</button>
         <p id="form-status" style="font-size:0.9rem; margin-top:4px; display:none;"></p>
       </form>
@@ -557,81 +668,154 @@
   </section>
 
   <footer>
-    <div class="container">
-      &copy; <span id="year"></span> Aylin Ozdes
-    </div>
+    <div class="container">&copy; <span id="year"></span> Aylin Ozdes</div>
   </footer>
 
+  <!-- Back to top -->
+  <button id="back-to-top" aria-label="Back to top">↑</button>
+
   <script>
+    // ── Year ──
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // ── Theme toggle ──
     const root = document.documentElement;
     const toggleBtn = document.getElementById('theme-toggle');
-
-    function applyTheme(theme) {
-      if (theme === 'light') {
-        root.classList.add('light');
-        toggleBtn.textContent = '🌙';
-        toggleBtn.setAttribute('aria-label', 'Switch to dark mode');
-      } else {
-        root.classList.remove('light');
-        toggleBtn.textContent = '☀️';
-        toggleBtn.setAttribute('aria-label', 'Switch to light mode');
-      }
+    function applyTheme(t) {
+      root.classList.toggle('light', t === 'light');
+      toggleBtn.textContent = t === 'light' ? '🌙' : '☀️';
+      toggleBtn.setAttribute('aria-label', t === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
     }
-
     applyTheme(localStorage.getItem('theme') || 'dark');
-
     toggleBtn.addEventListener('click', () => {
       const next = root.classList.contains('light') ? 'dark' : 'light';
       localStorage.setItem('theme', next);
       applyTheme(next);
     });
 
+    // ── Typing animation ──
+    const phrases = [
+      'University Instructor · Clarkson University',
+      'Researcher in Memory & Cognition',
+      'Human Development Specialist',
+      'Cognitive Psychologist',
+    ];
+    let pi = 0, ci = 0, deleting = false;
+    const typedEl = document.getElementById('typed-text');
+    function type() {
+      const phrase = phrases[pi];
+      if (!deleting) {
+        typedEl.textContent = phrase.slice(0, ++ci);
+        if (ci === phrase.length) { deleting = true; setTimeout(type, 1800); return; }
+      } else {
+        typedEl.textContent = phrase.slice(0, --ci);
+        if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+      }
+      setTimeout(type, deleting ? 40 : 60);
+    }
+    setTimeout(type, 600);
+
+    // ── Stats counter ──
+    function animateCounter(el) {
+      const target = +el.dataset.target;
+      let current = 0;
+      const step = Math.ceil(target / 30);
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = current + (target >= 10 ? '+' : '');
+        if (current >= target) clearInterval(timer);
+      }, 50);
+    }
+    let statsAnimated = false;
+    const statsObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && !statsAnimated) {
+        statsAnimated = true;
+        document.querySelectorAll('.stat-number').forEach(animateCounter);
+      }
+    }, { threshold: 0.5 });
+    statsObserver.observe(document.querySelector('.stats'));
+
+    // ── Mouse-follow glow ──
+    const glow = document.getElementById('hero-glow');
+    const hero = document.getElementById('hero');
+    hero.addEventListener('mousemove', e => {
+      const rect = hero.getBoundingClientRect();
+      glow.style.left = (e.clientX - rect.left) + 'px';
+      glow.style.top  = (e.clientY - rect.top)  + 'px';
+    });
+
     // ── Fade-in on scroll ──
-    const observer = new IntersectionObserver((entries) => {
+    const fadeObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
           setTimeout(() => entry.target.classList.add('visible'), i * 60);
-          observer.unobserve(entry.target);
+          fadeObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
 
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    // ── Active nav on scroll ──
+    const sections = ['bio', 'publications', 'contact'];
+    const navLinks = document.querySelectorAll('.nav-link');
+    const navObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          const link = document.querySelector(`.nav-link[data-section="${entry.target.id}"]`);
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { threshold: 0.4 });
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) navObserver.observe(el);
+    });
+
+    // ── Back to top ──
+    const backBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      backBtn.classList.toggle('visible', window.scrollY > 400);
+    });
+    backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // ── Publication filter tags ──
+    const tags = document.querySelectorAll('.tag');
+    const cards = document.querySelectorAll('.pub-card');
+    tags.forEach(tag => {
+      tag.addEventListener('click', () => {
+        tags.forEach(t => t.classList.remove('active'));
+        tag.classList.add('active');
+        const filter = tag.dataset.filter;
+        cards.forEach(card => {
+          const cardTags = card.dataset.tags || '';
+          const show = filter === 'all' || cardTags.includes(filter);
+          card.classList.toggle('hidden', !show);
+        });
+      });
+    });
 
     // ── Contact form ──
     const form = document.getElementById('contact-form');
     const status = document.getElementById('form-status');
     const btn = document.getElementById('submit-btn');
-
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      btn.disabled = true;
-      btn.textContent = 'Sending…';
-      status.style.display = 'none';
-
-      const data = new URLSearchParams(new FormData(form));
-
+      btn.disabled = true; btn.textContent = 'Sending…'; status.style.display = 'none';
       try {
-        const res = await fetch('/contact', { method: 'POST', body: data });
+        const res = await fetch('/contact', { method: 'POST', body: new URLSearchParams(new FormData(form)) });
         const json = await res.json();
         if (json.success) {
           status.textContent = '✓ Message sent! I\'ll get back to you soon.';
           status.style.color = 'var(--accent)';
           form.reset();
-        } else {
-          throw new Error(json.error);
-        }
+        } else throw new Error(json.error);
       } catch (err) {
         status.textContent = '✗ ' + (err.message || 'Something went wrong. Please try again.');
         status.style.color = '#e07070';
       }
-
       status.style.display = 'block';
-      btn.disabled = false;
-      btn.textContent = 'Send Message';
+      btn.disabled = false; btn.textContent = 'Send Message';
     });
   </script>
 
